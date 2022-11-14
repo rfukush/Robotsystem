@@ -1,0 +1,21 @@
+<launch>
+<include file="$(find dxl_armed_turtlebot)/launch/dxl_armed_turtlebot_gazebo.launch" />
+<include file="$(find roseus_tutorials)/launch/checkerboard-detector.launch" >
+<arg name="rect0_size_x" value="0.02" />
+<arg name="rect0_size_y" value="0.02" />
+<arg name="grid0_size_x" value="7" />
+<arg name="grid0_size_y" value="4" />
+<arg name="translation0" value="0 0 0" />
+<arg name="image" value="image_raw" />
+<arg name="group" value="/camera/rgb" />
+<arg name="frame_id" value="camera_rgb_optical_frame" />
+</include>
+<group ns="/camera/rgb" >
+<node pkg="checkerboard_detector" type="objectdetection_tf_publisher.py"
+name="objectdetection_tf_publisher" >
+<param name="use_simple_tf" value="true" />
+</node>
+</group>
+<node pkg="rqt_gui" type="rqt_gui" name="enshu_rqt"
+args="--perspective-file $(find dxl_armed_turtlebot)/launch/enshu.perspective" />
+</launch>

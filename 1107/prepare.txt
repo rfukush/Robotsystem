@@ -1,0 +1,33 @@
+2.1.1
+source ~/enshu_ws/devel/setup.bash
+
+roslaunch dxl_armed_turtlebot dxl_armed_turtlebot_gazebo.launch
+
+付録A
+roslaunch checkerboard-detector.launch rect0_size_x:=0.02 rect0_size_y:=0.02 grid0_size_x:=7 grid0_size_y:=4 translation0:="0 0 0" image:=image_raw group:=/camera/rgb frame_id:=camera_rgb_optical_frame
+
+ROS_NAMESPACE=/camera/rgb rosrun checkerboard_detector objectdetection_tf_publisher.py _use_simple_tf:=true
+
+source ~/enshu_ws/devel/setup.bash
+roslaunch example.launch 
+
+source ~/enshu_ws/devel/setup.bash 
+(ros::roseus "example_client_1")
+(setq *l* (instance ros::transform-listener :init))
+(send *l* :lookup-transform "/camera_rgb_optical_frame" "/test_object" (ros::time 0)) 
+
+(load "package://dxl_armed_turtlebot/euslisp/dxl-armed-turtlebot.l")
+(setq *dxl-armed-turtlebot* (dxl-armed-turtlebot))
+(objects (list *dxl-armed-turtlebot*)) 
+
+(setq target-local
+    (send *l* :lookup-transform
+        "/camera_rgb_optical_frame" "/test_object" (ros::time 0))) 
+
+(setq target-world
+    (send target-local :transform
+        (send *dxl-armed-turtlebot* :camera :camera_rgb_optical) :parent)) 
+
+(setq *target* (make-cube 50 50 50))
+(send *target* :move-to target-world :world)
+(objects (list *dxl-armed-turtlebot* *target*)) 

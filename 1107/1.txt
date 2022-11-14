@@ -1,0 +1,20 @@
+example.launchを起動
+
+チェッカーボードが見えるように
+
+三次元情報が得られていることを確認
+
+TFのTreeに座標系の関係性がある
+
+rostopic info tf　　でtfの確認
+
+プログラムを動かす（資料）
+
+roseus (lファイル)　　　で実行できる
+
+example_client_3.lでgo velocityの部分を変える
+
+source ~/enshu_ws/devel/setup.bashをしてから実行
+そうすることでパッケージなどを使えるようになる
+
+困ったらgithub
